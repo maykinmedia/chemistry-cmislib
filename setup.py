@@ -40,7 +40,7 @@ setup(
     packages = find_packages('src', exclude=['tests']),
     #include_package_data = True,
     exclude_package_data = {'':['tests']},
-    long_description = read('README.txt'),
+    long_description = read('README.md'),
     classifiers = [
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
