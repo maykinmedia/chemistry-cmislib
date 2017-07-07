@@ -28,9 +28,9 @@ from cmislib.net import RESTService as Rest
 from cmislib.util import parsePropValueByType
 import json
 import logging
-import StringIO
+from io import StringIO
 import time
-from urllib import urlencode, quote
+from urllib.parse import urlencode, quote
 
 CMIS_FORM_TYPE = 'application/x-www-form-urlencoded;charset=utf-8'
 

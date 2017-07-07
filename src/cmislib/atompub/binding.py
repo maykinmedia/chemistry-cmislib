@@ -41,6 +41,7 @@ else:
      from urlparse import urlparse, urlunparse
      import StringIO
 
+import six
 import re
 import mimetypes
 from xml.parsers.expat import ExpatError
@@ -60,9 +61,9 @@ CMIS_NS = 'http://docs.oasis-open.org/ns/cmis/core/200908/'
 # Not all of these patterns have variability, but some do. It seemed cleaner
 # just to treat them all like patterns to simplify the matching logic
 ATOM_XML_TYPE = 'application/atom+xml'
-ATOM_XML_ENTRY_TYPE = 'application/atom+xml;type=entry'
+ATOM_XML_ENTRY_TYPE = 'application/atom+xml;type=entry??'
 ATOM_XML_ENTRY_TYPE_P = re.compile('^application/atom\+xml.*type.*entry')
-ATOM_XML_FEED_TYPE = 'application/atom+xml;type=feed'
+ATOM_XML_FEED_TYPE = 'application/atom+xml'
 ATOM_XML_FEED_TYPE_P = re.compile('^application/atom\+xml.*type.*feed')
 CMIS_TREE_TYPE = 'application/cmistree+xml'
 CMIS_TREE_TYPE_P = re.compile('^application/cmistree\+xml')
@@ -1798,6 +1799,7 @@ class AtomPubRepository(object):
                                                xmlDoc.toxml(encoding='utf-8'),
                                                ATOM_XML_ENTRY_TYPE)
 
+
         # what comes back is the XML for the new document,
         # so use it to instantiate a new document
         # then return it
@@ -2522,7 +2524,11 @@ class AtomPubDocument(AtomPubCmisObject):
                                          **self._cmisClient.extArgs)
             if result['status'] != '200':
                 raise CmisException(result['status'])
-            return StringIO.StringIO(content)
+
+            # StringIO return a in-memeory stream for text, not bytes
+
+            return StringIO.BytesIO(content)
+
         else:
             # otherwise, try to return the value of the content element
             if contentElements[0].childNodes:
@@ -2672,7 +2678,7 @@ class AtomPubFolder(AtomPubCmisObject):
          - addACEs
          - removeACEs
         """
-
+        name = name.split('/')[-1]
         # get the folder represented by folderId.
         # we'll use his 'children' link post the new child
         postUrl = self.getChildrenLink()
@@ -2722,8 +2728,9 @@ class AtomPubFolder(AtomPubCmisObject):
         return self._repository.createDocumentFromString(name, properties,
                                                          self, contentString, contentType, contentEncoding)
 
+
     def createDocument(self, name, properties={}, contentFile=None,
-                       contentType=None, contentEncoding=None):
+                       contentType=None, contentEncoding='UTF-8'):
 
         """
         Creates a new Document object in the repository using
@@ -2762,7 +2769,7 @@ class AtomPubFolder(AtomPubCmisObject):
          - addACEs
          - removeACEs
         """
-
+        name = name.split('/')[-1]
         return self._repository.createDocument(name,
                                                properties,
                                                self,
