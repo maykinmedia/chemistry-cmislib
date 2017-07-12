@@ -20,6 +20,17 @@
 Module containing the Atom Pub binding-specific objects used to work with a CMIS
 provider.
 """
+import base64
+import datetime
+import logging
+import mimetypes
+import re
+from xml.dom import minidom
+from xml.parsers.expat import ExpatError
+
+import six
+from six.moves.urllib.parse import quote, urlparse, urlunparse
+
 from cmislib.cmis_services import Binding, RepositoryServiceIfc
 from cmislib.domain import CmisId, CmisObject, ObjectType, Property, ACL, ACE, ChangeEntry, ResultSet, Rendition
 from cmislib import messages
@@ -29,25 +40,11 @@ from cmislib.exceptions import CmisException, \
     NotSupportedException
 from cmislib.util import multiple_replace, parsePropValue, parseBoolValue, toCMISValue, parseDateTimeValue
 
-import sys
-import base64
-
-if sys.version_info >= (3,):
-     from urllib.parse import quote
-     from urllib.parse import urlparse, urlunparse
-     import io as StringIO
+if six.PY3:
+    import io as StringIO
 else:
-     from urllib import quote
-     from urlparse import urlparse, urlunparse
-     import StringIO
+    import StringIO
 
-import six
-import re
-import mimetypes
-from xml.parsers.expat import ExpatError
-import datetime
-import logging
-from xml.dom import minidom
 
 moduleLogger = logging.getLogger('cmislib.atompub_binding')
 
