@@ -20,30 +20,36 @@
 Module containing the Atom Pub binding-specific objects used to work with a CMIS
 provider.
 """
-from cmis_services import RepositoryServiceIfc
-from cmis_services import Binding
-from domain import CmisId, CmisObject, Repository, Relationship, Policy, ObjectType, Property, Folder, Document, ACL, ACE, ChangeEntry, ResultSet, ChangeEntryResultSet, Rendition
-from net import RESTService as Rest
-from exceptions import CmisException, RuntimeException, \
-    ObjectNotFoundException, InvalidArgumentException, \
-    PermissionDeniedException, NotSupportedException, \
-    UpdateConflictException
-from util import parseDateTimeValue
-import messages
+from __future__ import absolute_import
 
+import datetime
+import logging
+import mimetypes
+import re
+import StringIO
 from urllib import quote
 from urllib2 import HTTPError
 from urlparse import urlparse, urlunparse
-import re
-import mimetypes
-from xml.parsers.expat import ExpatError
-import datetime
-import time
-import iso8601
-import StringIO
-import logging
 from xml.dom import minidom
-from util import multiple_replace, parsePropValue, parseBoolValue, toCMISValue
+from xml.parsers.expat import ExpatError
+
+import six
+
+from . import messages
+from .cmis_services import RepositoryServiceIfc
+from .cmis_services import Binding
+from .domain import (
+    CmisId, CmisObject, ObjectType, Property, ACL, ACE,
+    ChangeEntry, ResultSet, Rendition
+)
+from .net import RESTService as Rest
+from .exceptions import (
+    CmisException, RuntimeException, ObjectNotFoundException,
+    InvalidArgumentException, NotSupportedException
+)
+from .util import (
+    parseDateTimeValue, multiple_replace, parsePropValue, parseBoolValue, toCMISValue
+)
 
 moduleLogger = logging.getLogger('cmislib.atompubbinding')
 
@@ -229,7 +235,7 @@ class RepositoryService(RepositoryServiceIfc):
                                          obj._cmisClient.username,
                                          obj._cmisClient.password)
         obj._initData()
-        
+
     def getRepository(self, client, repositoryId):
         doc = client.binding.get(client.repositoryUrl, client.username, client.password, **client.extArgs)
         workspaceElements = doc.getElementsByTagNameNS(APP_NS, 'workspace')

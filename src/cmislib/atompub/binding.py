@@ -4106,12 +4106,12 @@ def getElementNameAndValues(propType, propName, propValue, isList=False):
             propValueStrList = []
             for val in propValue:
                 if val is not None:
-                    propValueStrList.append(unicode(val).lower())
+                    propValueStrList.append(six.text_type(val).lower())
                 else:
                     propValueStrList.append(val)
         else:
             if propValue is not None:
-                propValueStrList = [unicode(propValue).lower()]
+                propValueStrList = [six.text_type(propValue).lower()]
             else:
                 propValueStrList = [propValue]
     elif propType == 'integer' or propType == int:
@@ -4120,12 +4120,12 @@ def getElementNameAndValues(propType, propName, propValue, isList=False):
             propValueStrList = []
             for val in propValue:
                 if val is not None:
-                    propValueStrList.append(unicode(val))
+                    propValueStrList.append(six.text_type(val))
                 else:
                     propValueStrList.append(val)
         else:
             if propValue is not None:
-                propValueStrList = [unicode(propValue)]
+                propValueStrList = [six.text_type(propValue)]
             else:
                 propValueStrList = [propValue]
     elif propType == 'decimal' or propType == float:
@@ -4134,12 +4134,12 @@ def getElementNameAndValues(propType, propName, propValue, isList=False):
             propValueStrList = []
             for val in propValue:
                 if val is not None:
-                    propValueStrList.append(unicode(val))
+                    propValueStrList.append(six.text_type(val))
                 else:
                     propValueStrList.append(val)
         else:
             if propValue is not None:
-                propValueStrList = [unicode(propValue)]
+                propValueStrList = [six.text_type(propValue)]
             else:
                 propValueStrList = [propValue]
     else:
@@ -4148,12 +4148,12 @@ def getElementNameAndValues(propType, propName, propValue, isList=False):
             propValueStrList = []
             for val in propValue:
                 if val is not None:
-                    propValueStrList.append(unicode(val))
+                    propValueStrList.append(six.text_type(val))
                 else:
                     propValueStrList.append(val)
         else:
             if propValue is not None:
-                propValueStrList = [unicode(propValue)]
+                propValueStrList = [six.text_type(propValue)]
             else:
                 propValueStrList = [propValue]
 
@@ -4161,7 +4161,6 @@ def getElementNameAndValues(propType, propName, propValue, isList=False):
 
 
 def getEmptyXmlDoc():
-
     """
     Internal helper method that knows how to build an empty Atom entry.
     """
