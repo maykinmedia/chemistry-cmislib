@@ -25,6 +25,7 @@ import datetime
 import logging
 import mimetypes
 import re
+from io import BytesIO
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 
@@ -2523,8 +2524,7 @@ class AtomPubDocument(AtomPubCmisObject):
                 raise CmisException(result['status'])
 
             # StringIO return a in-memeory stream for text, not bytes
-
-            return StringIO.BytesIO(content)
+            return BytesIO(content)
 
         else:
             # otherwise, try to return the value of the content element
@@ -2541,6 +2541,7 @@ class AtomPubDocument(AtomPubCmisObject):
         """
 
         # get this object's content stream link
+        import bpdb; bpdb.set_trace()
         contentElements = self.xmlDoc.getElementsByTagNameNS(ATOM_NS, 'content')
 
         assert(len(contentElements) == 1), 'Expected to find exactly one atom:content element.'
