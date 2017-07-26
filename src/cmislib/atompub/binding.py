@@ -3991,8 +3991,8 @@ def getEntryXmlDoc(repo=None, objectTypeId=None, properties=None, contentFile=No
         # and encode everything.
         readingContent = contentFile.read()
 
-        if not isinstance(readingContent,bytes):
-             readingContent = bytes(readingContent, encoding='utf-8')
+        if not isinstance(readingContent, bytes):
+            readingContent = bytes(readingContent, encoding='utf-8')
 
         content = base64.b64encode(readingContent)
 
@@ -4036,6 +4036,8 @@ def getEntryXmlDoc(repo=None, objectTypeId=None, properties=None, contentFile=No
             if propValue is None or (type(propValue) == list and propValue[0] is None):
                 # grab the prop type from the typeDef
                 if typeDef is None:
+                    if objectTypeId is None:
+                        objectTypeId = properties.get('cmis:objectTypeId')
                     moduleLogger.debug('Looking up type def for: %s', objectTypeId)
                     typeDef = repo.getTypeDefinition(objectTypeId)
                     # TODO what to do if type not found
