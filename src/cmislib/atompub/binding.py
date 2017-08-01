@@ -2541,7 +2541,6 @@ class AtomPubDocument(AtomPubCmisObject):
         """
 
         # get this object's content stream link
-        import bpdb; bpdb.set_trace()
         contentElements = self.xmlDoc.getElementsByTagNameNS(ATOM_NS, 'content')
 
         assert(len(contentElements) == 1), 'Expected to find exactly one atom:content element.'
@@ -2580,6 +2579,7 @@ class AtomPubDocument(AtomPubCmisObject):
         # which is not required by the spec to be the same document
         # we just updated, so use it to instantiate a new document
         # then return it
+        # NOTE: this is a lie. Apprently, nothing is returned
         return AtomPubDocument(self._cmisClient, self._repository, xmlDoc=result)
 
     def deleteContentStream(self):
