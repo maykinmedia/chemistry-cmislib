@@ -55,7 +55,6 @@ class Binding(object):
         if error['status'] == '401':
             raise PermissionDeniedException(error['status'], url)
         elif error['status'] == '400':
-            logger.exception("400 error received: %r", error)
             raise InvalidArgumentException(error['status'], url)
         elif error['status'] == '404':
             raise ObjectNotFoundException(error['status'], url)

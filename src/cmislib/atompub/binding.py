@@ -46,7 +46,7 @@ if six.PY3:
 else:
     import StringIO
 
-
+logger = logging.getLogger(__name__)
 moduleLogger = logging.getLogger('cmislib.atompub_binding')
 
 # Namespaces
@@ -192,6 +192,7 @@ class AtomPubBinding(Binding):
             except ExpatError:
                 raise CmisException('Could not parse server response', url)
         else:
+            logger.error("Error content: %r", content)
             self._processCommonErrors(resp, url)
             return resp
 
