@@ -20,10 +20,14 @@
 """
 Module containing the base Binding class and other service objects.
 """
+import logging
+
 from cmislib.exceptions import CmisException, RuntimeException, \
     ObjectNotFoundException, InvalidArgumentException, \
     PermissionDeniedException, NotSupportedException, \
     UpdateConflictException
+
+logger = logging.getLogger(__name__)
 
 
 class Binding(object):
@@ -51,6 +55,7 @@ class Binding(object):
         if error['status'] == '401':
             raise PermissionDeniedException(error['status'], url)
         elif error['status'] == '400':
+            logger.exception("400 error received: %s", error['status'])
             raise InvalidArgumentException(error['status'], url)
         elif error['status'] == '404':
             raise ObjectNotFoundException(error['status'], url)
