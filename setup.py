@@ -19,7 +19,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '0.7.dev3'
+version = '0.7.dev4'
 
 root_dir = os.path.dirname(os.path.abspath(__file__))
 
